@@ -12,7 +12,7 @@ router.post('/contato', async (req, res) => {
     }
     await createContact(name);
 
-    res.status(201).json({ contato: name })
+    res.status(201).json(`Contato ${name} adicionado com sucesso!`)
 
 });
 
@@ -32,7 +32,7 @@ router.delete('/contato', async (req,res)=>{
 
     await deleteContact(name as string)
 
-    res.json({contato: name});
+    res.json(`Contato ${name} deletado com sucesso!`)
 
 })
 
