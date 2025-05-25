@@ -34,7 +34,7 @@ API simples feita em Node.js com TypeScript que permite listar, adicionar e remo
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/guilhermedomeneghini/node-api-contatos
+git clone https://github.com/guilhermedomeneghini/node-api-contatos.git
 cd node-api-contatos
 ```
 
