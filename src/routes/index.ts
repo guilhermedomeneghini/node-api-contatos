@@ -5,36 +5,58 @@ const dataSource = './data/list.txt'
 
 const router = express.Router();
 
-router.post('/contato', async (req, res) =>{
+router.post('/contato', async (req, res) => {
     const { name } = req.body
 
-    if(!name || name.length<2){
-        res.json({error:'Nome precisa ter pelo menos 2 caracteres.'});
+    if (!name || name.length < 2) {
+        res.json({ error: 'Nome precisa ter pelo menos 2 caracteres.' });
         return;
     }
 
     //processamento dos dados
     let list: string[] = [];
-    try{
-        const data = await readFile(dataSource, {encoding: 'utf8'});
+    try {
+        const data = await readFile(dataSource, { encoding: 'utf8' });
         list = data.split('\n');
-    }catch(err){}
+    } catch (err) { }
 
     list.push(name);
     await writeFile(dataSource, list.join('\n'));
 
-    res.status(201).json({contato: name})
+    res.status(201).json({ contato: name })
 
 });
 
-router.get('/contatos', async (req,res)=>{
+router.get('/contatos', async (req, res) => {
     let list: string[] = [];
-    try{
-        const data = await readFile(dataSource, {encoding: 'utf8'});
+    try {
+        const data = await readFile(dataSource, { encoding: 'utf8' });
         list = data.split('\n');
-    }catch(err){}
+    } catch (err) { }
 
-    res.json({contatos: list});
+    res.json({ contatos: list });
+})
+
+router.delete('/contato', async (req,res)=>{
+    const { name } = req.query;
+
+    if(!name){
+        res.json({error:'Precisar enviar um nome para excluir.'})
+        return;
+    }
+
+    let list: string[] = [];
+    try {
+        const data = await readFile(dataSource, { encoding: 'utf8' });
+        list = data.split('\n');
+    } catch (err) {}
+
+    list = list.filter(item => item.toLowerCase() !== (name as string).toLowerCase())
+
+    await writeFile(dataSource, list.join('\n'));
+
+    res.json({contato: name});
+
 })
 
 export default router;
